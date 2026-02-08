@@ -2313,13 +2313,13 @@ void GCode::_do_export(Print& print, GCodeOutputStream &file, ThumbnailsGenerato
     if (!print.config().small_area_infill_flow_compensation_model.empty())
         m_small_area_infill_flow_compensator = make_unique<SmallAreaInfillFlowCompensator>(print.config());
     
-    // Process machine_top_gcode - written at the very top of the file, before any header
+    // Process file_start_gcode - written at the very top of the file, before any header
     {
-        std::string top_gcode_template = print.config().machine_top_gcode.value;
+        std::string top_gcode_template = print.config().file_start_gcode.value;
         if (!top_gcode_template.empty()) {
             DynamicConfig top_config;
             top_config.set_key_value("print_time_sec", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Print_Time_Sec_Placeholder)));
-            top_config.set_key_value("filament_length_m", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Filament_Length_M_Placeholder)));
+            top_config.set_key_value("used_filament_length", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Used_Filament_Length_Placeholder)));
             std::string top_gcode = print.placeholder_parser().process(top_gcode_template, 0, &top_config);
             if (!top_gcode.empty())
                 file.writeln(top_gcode);
@@ -2868,7 +2868,7 @@ void GCode::_do_export(Print& print, GCodeOutputStream &file, ThumbnailsGenerato
     }
 
     this->placeholder_parser().set("print_time_sec", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Print_Time_Sec_Placeholder)));
-    this->placeholder_parser().set("filament_length_m", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Filament_Length_M_Placeholder)));
+    this->placeholder_parser().set("used_filament_length", new ConfigOptionString(GCodeProcessor::reserved_tag(GCodeProcessor::ETags::Used_Filament_Length_Placeholder)));
 
     std::string machine_start_gcode = this->placeholder_parser_process("machine_start_gcode", print.config().machine_start_gcode.value, initial_extruder_id);
     if (print.config().gcode_flavor != gcfKlipper) {

@@ -4439,7 +4439,7 @@ void TabPrinter::build_fff()
             validate_custom_gcode_cb(this, optgroup_title, opt_key, value);
         };
         optgroup->edit_custom_gcode = edit_custom_gcode_fn;
-        option = optgroup->get_option("machine_top_gcode");
+        option = optgroup->get_option("file_start_gcode");
         option.opt.full_width = true;
         option.opt.is_code = true;
         option.opt.height = 8;

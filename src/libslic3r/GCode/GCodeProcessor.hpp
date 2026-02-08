@@ -343,7 +343,7 @@ class Print;
             Wipe_Tower_End,
             PA_Change,
             Print_Time_Sec_Placeholder,
-            Filament_Length_M_Placeholder,
+            Used_Filament_Length_Placeholder,
         };
 
         static const std::string& reserved_tag(ETags tag) { return s_IsBBLPrinter ? Reserved_Tags[static_cast<unsigned char>(tag)] : Reserved_Tags_compatible[static_cast<unsigned char>(tag)]; }
